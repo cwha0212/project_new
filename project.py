@@ -32,16 +32,21 @@ def ConvQuatToMat(pos, ori):
   RotationMat = np.concatenate([RotationMat, a])
   return RotationMat
 
-pos2 = [-23.9229750476, -0.0535605255219, 9.33555329034]
+pos1 = [-23.9229750476, -0.0535605255219, 9.33555329034]
 ori1 = [0.786117857896, -0.0201473329851, 0.617380595993, -0.0213356424875]
 
-pos1 = [53.3270992038, 0.046179437072, -31.181354216]
+pos2 = [53.3270992038, 0.046179437072, -31.181354216]
 ori2 = [0.998085638374, -0.0564309751221, -0.0244827196724, 0.00645456588391]
 
-R = ConvQuatToMat(pos1, ori1)
-R_f = ConvQuatToMat(pos2, ori2)
+# focal = 1084.20385742 / 1300
+focal = 1300 / 1084.20385742
+print(focal)
 
-Mat = np.dot(np.linalg.inv(R_f), R)
+R = ConvQuatToMat(pos2, ori1)
+R_f = ConvQuatToMat(pos1, ori2)
+Mat = np.dot(R ,np.linalg.inv(R_f))
+print(R)
+print(np.dot(Mat,R_f))
 
 i = 0
 use_pose = 0
@@ -49,7 +54,7 @@ use_cloud = 0
 clouds_xyz = np.empty((0,3),float)
 clouds_rgb = np.empty((0,4),int)
 
-with open("/home/chang/project/engfactory.txt", "r") as f:
+with open("/home/chang/project_new/engfactory.txt", "r") as f:
   lines = f.readlines()
   for line in lines:
     i = i+1
@@ -76,6 +81,7 @@ clouds_xyz = np.concatenate([clouds_xyz, one], 1)
 
 clouds_xyz = np.dot(np.linalg.inv(Mat), clouds_xyz.T)
 clouds_xyz = np.delete(clouds_xyz.T, 3, axis = 1)
+# clouds_xyz = clouds_xyz * focal
 
 clouds = np.concatenate([clouds_xyz, clouds_rgb], 1)
 
@@ -85,7 +91,7 @@ use_cloud = 0
 clouds_xyz = np.empty((0,3),float)
 clouds_rgb = np.empty((0,4),int)
 
-with open("/home/chang/project/7eng.txt", "r") as f:
+with open("/home/chang/project_new/7eng.txt", "r") as f:
   lines = f.readlines()
   for line in lines:
     i = i+1
