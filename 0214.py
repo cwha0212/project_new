@@ -51,9 +51,8 @@ print(np.dot(Mat,R_f))
 i = 0
 use_pose = 0
 use_cloud = 0
-clouds_xyz = np.empty((0,3),float)
-clouds_rgb = np.empty((0,4),int)
 
+t = open("/home/chang/project_new/engfactory_135_cloud.txt", "w")
 with open("/home/chang/project_new/engfactory.txt", "r") as f:
   lines = f.readlines()
   for line in lines:
@@ -72,26 +71,26 @@ with open("/home/chang/project_new/engfactory.txt", "r") as f:
       r = int(cc[3])
       g = int(cc[4])
       b = int(cc[5])
-      a = 255
-      clouds_xyz = np.append(clouds_xyz, np.array([[x, y, z]]), axis = 0)
-      clouds_rgb = np.append(clouds_rgb, np.array([[r, g, b, a]]), axis = 0)
+      measurements_num = int(cc[6])
+      cloud_xyz = np.array([[x],[y],[z],[1]])
+      cloud_xyz = np.dot(np.linalg.inv(Mat), cloud_xyz)
+      cloud_xyz = np.delete(cloud_xyz.T, 3, axis = 1)
+      cloud_xyz = cloud_xyz.reshape(-1,)
+      cloud_xyz = cloud_xyz.tolist()
+      for j in range(measurements_num):
+        if int(cc[7+4*j]) == 138:
+          save_line = cloud_xyz + cc[3:]
+          print(save_line)
+          for k in save_line:
+            t.write(str(k)+" ")
+          t.write("\n")
+t.close()
 
-one = np.ones((use_cloud, 1))
-# clouds_xyz = clouds_xyz*focal
-clouds_xyz = np.concatenate([clouds_xyz, one], 1)
-
-clouds_xyz = np.dot(np.linalg.inv(Mat), clouds_xyz.T)
-clouds_xyz = np.delete(clouds_xyz.T, 3, axis = 1)
-clouds_xyz = clouds_xyz * focal
-clouds_xyz = clouds_xyz + [ 1.86367226, 1.55769382,-1.19781009]
-clouds = np.concatenate([clouds_xyz, clouds_rgb], 1)
 
 i = 0
 use_pose = 0
 use_cloud = 0
-clouds_xyz = np.empty((0,3),float)
-clouds_rgb = np.empty((0,4),int)
-
+t = open("/home/chang/project_new/7eng_135_cloud.txt", "w")
 with open("/home/chang/project_new/7eng.txt", "r") as f:
   lines = f.readlines()
   for line in lines:
@@ -110,11 +109,13 @@ with open("/home/chang/project_new/7eng.txt", "r") as f:
       r = int(cc[3])
       g = int(cc[4])
       b = int(cc[5])
-      a = 255
-      clouds_xyz = np.append(clouds_xyz, np.array([[x, y, z]]), axis = 0)
-      clouds_rgb = np.append(clouds_rgb, np.array([[r, g, b, a]]), axis = 0)
-
-clouds_f = np.concatenate([clouds_xyz, clouds_rgb], 1)
-clouds = np.concatenate([clouds, clouds_f], 0)
-
-np.savetxt("clouds.txt", clouds, fmt='%f', delimiter=' ')
+      measurements_num = int(cc[6])
+      cloud_xyz = [x,y,z]
+      for j in range(measurements_num):
+        if int(cc[7+4*j]) == 92:
+          save_line = cloud_xyz + cc[3:]
+          print(save_line)
+          for k in save_line:
+            t.write(str(k)+" ")
+          t.write("\n")
+t.close()

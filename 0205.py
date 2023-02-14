@@ -76,10 +76,10 @@ with open("/home/chang/project_new/engfactory.txt", "r") as f:
       a = 255
       clouds_xyz = np.append(clouds_xyz, np.array([[x, y, z]]), axis = 0)
       clouds_rgb = np.append(clouds_rgb, np.array([[r, g, b, a]]), axis = 0)
-
+clouds_xyz = clouds_xyz * focal
 clouds_xyz = clouds_xyz - t_f
 clouds_xyz = np.dot(R_f, clouds_xyz.T)
-clouds_xyz = clouds_xyz * focal
+# clouds_xyz = clouds_xyz * focal
 
 clouds = np.concatenate([clouds_xyz.T, clouds_rgb], 1)
 
