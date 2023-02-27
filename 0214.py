@@ -52,7 +52,7 @@ i = 0
 use_pose = 0
 use_cloud = 0
 
-t = open("/home/chang/project_new/engfactory_135_cloud.txt", "w")
+t = open("/home/chang/project_new/engfactory_chain_cloud.txt", "w")
 with open("/home/chang/project_new/engfactory.txt", "r") as f:
   lines = f.readlines()
   for line in lines:
@@ -78,19 +78,21 @@ with open("/home/chang/project_new/engfactory.txt", "r") as f:
       cloud_xyz = cloud_xyz.reshape(-1,)
       cloud_xyz = cloud_xyz.tolist()
       for j in range(measurements_num):
-        if int(cc[7+4*j]) == 138:
+        if int(cc[7+4*j]) == 132 or int(cc[7+4*j]) == 133 or int(cc[7+4*j]) == 134 or int(cc[7+4*j]) == 135 or int(cc[7+4*j]) == 136 or int(cc[7+4*j]) == 137 or int(cc[7+4*j]) == 138 or int(cc[7+4*j]) == 139 or int(cc[7+4*j]) == 140 or int(cc[7+4*j]) == 141:
+          # save_line = cloud_xyz
           save_line = cloud_xyz + cc[3:]
           print(save_line)
           for k in save_line:
             t.write(str(k)+" ")
           t.write("\n")
+          break
 t.close()
 
 
 i = 0
 use_pose = 0
 use_cloud = 0
-t = open("/home/chang/project_new/7eng_135_cloud.txt", "w")
+t = open("/home/chang/project_new/7eng_chain_cloud.txt", "w")
 with open("/home/chang/project_new/7eng.txt", "r") as f:
   lines = f.readlines()
   for line in lines:
@@ -112,10 +114,12 @@ with open("/home/chang/project_new/7eng.txt", "r") as f:
       measurements_num = int(cc[6])
       cloud_xyz = [x,y,z]
       for j in range(measurements_num):
-        if int(cc[7+4*j]) == 92:
+        if int(cc[7+4*j]) == 83 or int(cc[7+4*j]) == 84 or int(cc[7+4*j]) == 85 or int(cc[7+4*j]) == 86 or int(cc[7+4*j]) == 87 or int(cc[7+4*j]) == 92 or int(cc[7+4*j]) == 91 or int(cc[7+4*j]) == 90 or int(cc[7+4*j]) == 89 or int(cc[7+4*j]) == 88:
+          # save_line = cloud_xyz
           save_line = cloud_xyz + cc[3:]
           print(save_line)
           for k in save_line:
             t.write(str(k)+" ")
           t.write("\n")
+          break
 t.close()
