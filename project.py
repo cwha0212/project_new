@@ -81,11 +81,11 @@ one = np.ones((use_cloud, 1))
 clouds_xyz = np.concatenate([clouds_xyz, one], 1)
 
 clouds_xyz = np.dot(np.linalg.inv(Mat), clouds_xyz.T)
-new_Mat = np.array([[0.98065958,-0.19366996,0.02826179,-4.52308749],
-                  [0.19065961,0.97791355,0.0856388,3.99397214],
-                  [-0.04422325,-0.07859412,0.99592533,-0.96718937],
+new_Mat = np.array([[0.94113245,-0.33368516,-0.05407323,-5.30390161],
+                  [0.33584505,0.90479571,0.26182595,5.89588082],
+                  [-0.03844221,-0.26457313,0.96359912,-0.51123477],
                   [0,0,0,1]])
-clouds_xyz = np.dot(new_Mat, clouds_xyz)
+clouds_xyz = np.dot(new_Mat.T, clouds_xyz)
 clouds_xyz = np.delete(clouds_xyz.T, 3, axis = 1)
 # clouds_xyz = clouds_xyz * focal
 # clouds_xyz = clouds_xyz + [ 1.86367226, 1.55769382,-1.19781009]
